@@ -1,10 +1,14 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Snake {
     KeyHandler keyHandler;
     Fruit fruit;
     GameWindow gameWindow;
-    public boolean alive = true;
+    boolean alive = true;
+    Button resetButton;
+    boolean buttonPressed = false;
     int snakeParts = 5;
     int appleEaten = 0;
 //    public static boolean eatNow = false;
@@ -22,6 +26,7 @@ public class Snake {
 
     public void update(){
 
+        drawResetButton();
         appleEat();
         if(fruit.appleReset){
             fruit.setFruitPosition();
@@ -97,6 +102,34 @@ public class Snake {
 //            eatNow = false;
             }
         }
+
+        public void drawResetButton(){
+
+        if(!alive){
+            this.resetButton = new Button();
+            resetButton.setBounds(250,250,100,50);
+            gameWindow.add(resetButton);
+            resetButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(resetButton.isEnabled()){
+                        buttonPressed = true;
+                        System.out.println(buttonPressed);
+                        resetGame();
+                    }
+                }
+            });
+            resetButton.setVisible(true);
+        }
+    }
+    public void resetGame(){
+        if(buttonPressed){
+            buttonPressed = false;
+            Main.createNewFrame();
+        }
+    }
+
+
     public void draw(Graphics2D graphics2D) {
 
             for(int i=0; i<snakeParts;i++){
